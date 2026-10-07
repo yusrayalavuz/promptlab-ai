@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SECRET_KEY!,
+  process.env.SUPABASE_ANON_KEY!,
 );
 
 const VALID_SERVICES = [
@@ -75,16 +75,12 @@ export async function POST(request: Request) {
       );
     }
 
-    const { data, error } = await supabase
-      .from("requests")
-      .insert({
-        name,
-        email,
-        service,
-        description,
-      })
-      .select("id, name, email, service, description, created_at")
-      .single();
+    const { error } = await supabase.from("requests").insert({
+      name,
+      email,
+      service,
+      description,
+    });
 
     if (error) {
       console.error("Supabase error:", error);
@@ -100,7 +96,6 @@ export async function POST(request: Request) {
     return NextResponse.json(
       {
         message: "Talep başarıyla kaydedildi.",
-        data,
       },
       { status: 201 },
     );

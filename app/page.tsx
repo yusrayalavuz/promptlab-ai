@@ -59,10 +59,22 @@ export default function Home() {
       return;
     }
 
+    if (name.length < 2 || name.length > 100) {
+      setMessage("Ad Soyad 2-100 karakter arasında olmalıdır.");
+      setMessageType("error");
+      return;
+    }
+
     const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
     if (!emailPattern.test(email)) {
       setMessage("Lütfen geçerli bir e-posta adresi girin.");
+      setMessageType("error");
+      return;
+    }
+
+    if (description.length < 10 || description.length > 2000) {
+      setMessage("Proje açıklaması 10-2000 karakter arasında olmalıdır.");
       setMessageType("error");
       return;
     }
